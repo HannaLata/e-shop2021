@@ -14,18 +14,12 @@ public class Cart {
 
     private Integer id;
     private Status status;
-    private Integer userId;
+    private User user;
     private Long creationTime;
 
-    enum Status {
-        OPEN,
-        TO_BE_CLOSED,
-        CLOSED
-    }
-
-    public Cart(Status status, Integer userId, Long creationTime) {
+    public Cart(Status status, User user, Long creationTime) {
         this.status = status;
-        this.userId = userId;
+        this.user = user;
         this.creationTime = creationTime;
     }
 }

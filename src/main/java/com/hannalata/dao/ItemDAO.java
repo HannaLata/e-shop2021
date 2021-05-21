@@ -11,9 +11,9 @@ import java.util.List;
 public class ItemDAO {
 
     public static Item save(Item item) {
-        String sql = "INSERT INTO users (name, code, price, availability) " +
+        String sql = "INSERT INTO items (name, code, price, availability) " +
                 "VALUES (?, ?, ?, ?)";
-        String sequenceSQL = "SELECT currval(pg_get_serial_sequence('users','id'))";
+        String sequenceSQL = "SELECT currval(pg_get_serial_sequence('items','id'))";
         int result = 0;
         try (Connection connection = ConnectionToDB.getConnection();
              PreparedStatement preparedStatement =
@@ -45,7 +45,7 @@ public class ItemDAO {
     }
 
     public static List<Item> getAllAvailable() {
-        String sql = "SELECT * FROM users WHERE availability > 0";
+        String sql = "SELECT * FROM items WHERE availability > 0";
         List<Item> items = new ArrayList<>();
         try (Connection connection = ConnectionToDB.getConnection();
              PreparedStatement preparedStatement =
@@ -68,7 +68,7 @@ public class ItemDAO {
     }
 
     public static Item getById(Integer id) {
-        String sql = "SELECT * FROM users WHERE id = ?";
+        String sql = "SELECT * FROM items WHERE id = ?";
         try (Connection connection = ConnectionToDB.getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement(sql)) {
@@ -91,7 +91,7 @@ public class ItemDAO {
     }
 
     public static Item getByCode(String code) {
-        String sql = "SELECT * FROM users WHERE id = ?";
+        String sql = "SELECT * FROM items WHERE id = ?";
         try (Connection connection = ConnectionToDB.getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement(sql)) {
@@ -115,7 +115,7 @@ public class ItemDAO {
 
     public static Item update(Item item) {
         String sql =
-                "UPDATE users SET login = ?, password = ?, first_name = ?, last_name = ?, email = ?, phone = ? WHERE id = ?";
+                "UPDATE items SET name = ?, code = ?, price = ?, availability = ? WHERE id = ?";
 
         try (Connection connection = ConnectionToDB.getConnection();
              PreparedStatement preparedStatement =
@@ -136,7 +136,7 @@ public class ItemDAO {
     }
 
     public static void delete(Integer id) {
-        String sql = "DELETE FROM users WHERE id = ?";
+        String sql = "DELETE FROM items WHERE id = ?";
         try (Connection connection = ConnectionToDB.getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement(sql)) {

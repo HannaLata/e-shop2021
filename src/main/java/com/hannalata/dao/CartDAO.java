@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CartDAO {
 
@@ -45,7 +47,7 @@ public class CartDAO {
     }
 
 
-    public static Cart geById(Integer id) {
+    public static Cart getById(Integer id) {
         String sql = "SELECT * FROM carts WHERE id = ?";
         try (Connection connection = ConnectionToDB.getConnection();
              PreparedStatement preparedStatement =
@@ -69,8 +71,9 @@ public class CartDAO {
         return null;
     }
 
-    public static Cart geByUserAndPeriod(User user, Long timeFrom, Long timeTo) {
+    public static List<Cart> getAllByUserAndPeriod(User user, Long timeFrom, Long timeTo) {
         String sql = "SELECT * FROM carts WHERE user_id = ? AND creation_time >= ? AND creation_time <= ?";
+        List<Cart> carts = new ArrayList<>();
         try (Connection connection = ConnectionToDB.getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement(sql)) {
@@ -85,12 +88,12 @@ public class CartDAO {
                         user,
                         resultSet.getLong("creation_time")
                 );
-                return cart;
+                carts.add(cart);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return carts;
     }
 
     public static Cart geByUserAndOpenStatus(User user) {

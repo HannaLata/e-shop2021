@@ -44,6 +44,30 @@ public class ItemDAO {
         return item;
     }
 
+    public static List<Item> getAll() {
+        String sql = "SELECT * FROM items";
+        List<Item> items = new ArrayList<>();
+        try ( Connection connection = ConnectionToDB.getConnection();
+              PreparedStatement preparedStatement =
+                      connection.prepareStatement(sql);
+              ResultSet resultSet = preparedStatement.executeQuery();
+        ) {
+            while(resultSet.next()) {
+                Item item = new Item (
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("code"),
+                        resultSet.getInt("price"),
+                        resultSet.getInt("availability")
+                );
+                items.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+
     public static List<Item> getAllAvailable() {
         String sql = "SELECT * FROM items WHERE availability > 0";
         List<Item> items = new ArrayList<>();

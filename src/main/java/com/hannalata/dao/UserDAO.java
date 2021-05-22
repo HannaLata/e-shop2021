@@ -54,7 +54,7 @@ public class UserDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 User user = new User(
-                        resultSet.getInt("id"),
+                        resultSet.getInt("user_id"),
                         resultSet.getString("login"),
                         resultSet.getString("password"),
                         resultSet.getString("first_name"),

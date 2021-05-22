@@ -1,7 +1,6 @@
 package com.hannalata.dao;
 
 import com.hannalata.model.*;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -98,7 +97,7 @@ public class OrderDAO {
 
     public static Order update(Order order) {
         String sql =
-                "UPDATE order SET item_id = ?, amount = ? WHERE id = ?";
+                "UPDATE orders SET item_id = ?, amount = ? WHERE id = ?";
 
         try (Connection connection = ConnectionToDB.getConnection();
              PreparedStatement preparedStatement =

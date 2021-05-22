@@ -3,7 +3,6 @@ package com.hannalata.dao;
 import com.hannalata.model.Cart;
 import com.hannalata.model.Status;
 import com.hannalata.model.User;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,7 +47,9 @@ public class CartDAO {
 
 
     public static Cart getById(Integer id) {
-        String sql = "SELECT * FROM carts WHERE id = ?";
+        String sql = "SELECT * FROM carts c " +
+                "JOIN users u ON u.id = c.user_id " +
+                "WHERE c.id = ?";
         try (Connection connection = ConnectionToDB.getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement(sql)) {
@@ -61,7 +62,15 @@ public class CartDAO {
                         null,
                         resultSet.getLong("creation_time")
                 );
-                User user = UserDAO.getById(resultSet.getInt("user_id"));
+                User user = new User(
+                        resultSet.getInt("id"),
+                        resultSet.getString("login"),
+                        resultSet.getString("password"),
+                        resultSet.getString("first_name"),
+                        resultSet.getString("last_name"),
+                        resultSet.getString("email"),
+                        resultSet.getString("phone")
+                );
                 cart.setUser(user);
                 return cart;
             }
